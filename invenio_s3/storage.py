@@ -152,7 +152,7 @@ class S3FSFileStorage(PyFSFileStorage):
         try:
             fs, path = self._get_fs()
             s3_url_builder = partial(
-                fs.url, path, expires=current_app.config["S3_URL_EXPIRATION"]
+                fs.url, path, expires=current_app.config["S3_URL_EXPIRATION"], client_method="head_object" if as_attachment == "HEAD" else "get_object"
             )
 
             return redirect_stream(
